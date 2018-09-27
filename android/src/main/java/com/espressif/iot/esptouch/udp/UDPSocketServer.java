@@ -56,7 +56,7 @@ public class UDPSocketServer {
 			this.mIsClosed = false;
 			WifiManager manager = (WifiManager) mContext
 					.getSystemService(Context.WIFI_SERVICE);
-			mLock = manager.createMulticastLock("test wifi");
+			mLock = manager.createMulticastLock("karstenmademechangethis");
 			Log.d(TAG, "mServerSocket is created, socket read timeout: "
 					+ socketTimeout + ", port: " + port);
 		} catch (IOException e) {
