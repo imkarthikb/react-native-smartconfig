@@ -140,9 +140,8 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     NSString *password = [self.options valueForKey:@"password"];
     NSString *bssid = [self.options valueForKey:@"bssid"];
     BOOL hidden = [self.options valueForKey:@"hidden"];
-    int results = [self.options valueFoKey:@"results"];
-    int timeout = [self.options valueFoKey:@"timeout"];
-
+    int results = [[self.options valueForKey:@"results"] intValue];
+    int timeout = [[self.options valueForKey:@"timeout"] intValue];
 
     RCTLogInfo(@"ssid %@ pass %@ bssid %@", ssid, password, bssid);
     self._esptouchTask =
