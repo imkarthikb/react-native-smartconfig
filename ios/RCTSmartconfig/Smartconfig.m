@@ -42,7 +42,7 @@
 @implementation Smartconfig
 {
 
-    
+
 }
 
 RCT_EXPORT_MODULE();
@@ -74,49 +74,49 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     for (NSString *key in options.keyEnumerator) { // Replace default options
         [self.options setValue:options[key] forKey:key];
     }
-    
-    
+
+
     dispatch_queue_t  queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        
+
         NSArray *esptouchResultArray = [self executeForResults];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+
             BOOL resolved = false;
             NSMutableArray *ret = [[NSMutableArray alloc]init];
-            
+
             for (int i = 0; i < [esptouchResultArray count]; ++i)
             {
                 ESPTouchResult *resultInArray = [esptouchResultArray objectAtIndex:i];
-                
+
                 if (![resultInArray isCancelled] && [resultInArray bssid] != nil) {
-                    
+
                     unsigned char *ipBytes = (unsigned char *)[[resultInArray ipAddrData] bytes];
-                    
+
                     NSString *ipv4String = [NSString stringWithFormat:@"%d.%d.%d.%d", ipBytes[0], ipBytes[1], ipBytes [2], ipBytes [3]];
-                    
+
                     NSDictionary *respData = @{@"bssid": [resultInArray bssid], @"ipv4": ipv4String};
-                    
+
                     [ret addObject: respData];
                     resolved = true;
                     if (![resultInArray isSuc])
                         break;
                 }
-                
-                
+
+
             }
             if(resolved)
                 resolve(ret);
             else
                 reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(@"Timoutout or not Found"));
-            
-            
+
+
         });
-        
+
     });
 
-    
+
 }
 
 - (void) cancel
@@ -140,15 +140,18 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     NSString *password = [self.options valueForKey:@"password"];
     NSString *bssid = [self.options valueForKey:@"bssid"];
     BOOL hidden = [self.options valueForKey:@"hidden"];
-    
+    int results = [self.options valueFoKey:@"results"];
+    int timeout = [self.options valueFoKey:@"timeout"];
+
+
     RCTLogInfo(@"ssid %@ pass %@ bssid %@", ssid, password, bssid);
     self._esptouchTask =
-    [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden];
+        [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeout];
     // set delegate
     [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
     [self._condition unlock];
-    NSArray * esptouchResults = [self._esptouchTask executeForResults:1];
-    
+    NSArray * esptouchResults = [self._esptouchTask executeForResults:results];
+
     return esptouchResults;
 }
 

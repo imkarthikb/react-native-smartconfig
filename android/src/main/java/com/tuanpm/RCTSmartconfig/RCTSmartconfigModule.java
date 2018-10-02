@@ -61,6 +61,9 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
     public void start(final ReadableMap options, final Promise promise) {
       String ssid = options.getString("ssid");
       String pass = options.getString("password");
+      int results = options.getInt("results");
+      int timeout = options.getInt("timeout");
+
       Boolean hidden = false;
       //Int taskResultCountStr = 1;
       Log.d(TAG, "ssid " + ssid + ":pass " + pass);
@@ -95,7 +98,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
             }
 
         }
-      }).execute(ssid, new String(""), pass, "YES", "1");
+          }).execute(ssid, new String(""), pass, "YES", Integer.toString(results), Integer.toString(timeout));
       //promise.resolve(encoded);
       //promise.reject("Error creating media file.");
       //
@@ -143,13 +146,16 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
           String apPassword = params[2];
           String isSsidHiddenStr = params[3];
           String taskResultCountStr = params[4];
+          String timeoutStr = params[5];
+
           boolean isSsidHidden = false;
           if (isSsidHiddenStr.equals("YES")) {
             isSsidHidden = true;
           }
           taskResultCount = Integer.parseInt(taskResultCountStr);
+          int timeout = Integer.parseInt(timeoutStr);
           mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
-              isSsidHidden, getCurrentActivity());
+                                           isSsidHidden, timeout, getCurrentActivity());
 
           //mEsptouchTask.setEsptouchListener(myListener);
         }
