@@ -4,6 +4,8 @@
 
 [react-native](https://github.com/facebook/react-native) module for [ESP8266 ESPTOUCH Smart config](https://github.com/EspressifApp)
 
+> Disclaimer: Modified by Avispatech for internal purposes only.
+
 ## Featues
 * Support both IOS and Android
 * React Native Promise support
@@ -11,9 +13,13 @@
 
 ## Getting started
 ### Mostly automatic install
-1. `npm install rnpm --global`
-2. `npm install react-native-smartconfig@latest --save`
-3. `rnpm link react-native-smartconfig`
+1. `npm install react-native-smartconfig@latest --save`
+2. Add this to your podfile: 
+   ```
+    pod 'Smartconfig',
+    :podspec => '../node_modules/react-native-smartconfig/react-native-smartconfig.podspec'
+   ```
+3. Install your pods normally (`pod install` inside iOS directory)
 
 ### Manual install
 #### iOS
