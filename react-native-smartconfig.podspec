@@ -6,11 +6,11 @@ Pod::Spec.new do |s|
   s.name           = "Smartconfig"
   s.version        = package_json["version"]
   s.summary        = package_json["description"]
-  s.homepage       = "https://github.com/tuanpmt/react-native-smartconfig"
+  s.homepage       = "https://github.com/avispatech/react-native-smartconfig"
   s.license        = package_json["license"]
   s.author         = { package_json["author"] => package_json["author"] }
   s.platform       = :ios, "8.0"
-  s.source         = { :git => "https://github.com/tuanpmt/react-native-smartconfig.git" }
+  s.source         = { :git => "https://github.com/avispatech/react-native-smartconfig.git" }
   s.source_files   = 'ios/RCTSmartconfig/*.{h,m}'
   s.dependency 'React'
 
