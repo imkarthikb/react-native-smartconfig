@@ -38,7 +38,7 @@ public class UDPSocketServer {
 
 	/**
 	 * Constructor of UDP Socket Server
-	 * 
+	 *
 	 * @param port
 	 *            the Socket Server port
 	 * @param socketTimeout
@@ -56,7 +56,7 @@ public class UDPSocketServer {
 			this.mIsClosed = false;
 			WifiManager manager = (WifiManager) mContext
 					.getSystemService(Context.WIFI_SERVICE);
-			mLock = manager.createMulticastLock("test wifi");
+			mLock = manager.createMulticastLock("karstenmademechangethis");
 			Log.d(TAG, "mServerSocket is created, socket read timeout: "
 					+ socketTimeout + ", port: " + port);
 		} catch (IOException e) {
@@ -67,7 +67,7 @@ public class UDPSocketServer {
 
 	/**
 	 * Set the socket timeout in milliseconds
-	 * 
+	 *
 	 * @param timeout
 	 *            the timeout in milliseconds or 0 for no timeout.
 	 * @return true whether the timeout is set suc
@@ -84,7 +84,7 @@ public class UDPSocketServer {
 
 	/**
 	 * Receive one byte from the port and convert it into String
-	 * 
+	 *
 	 * @return
 	 */
 	public byte receiveOneByte() {
@@ -99,7 +99,7 @@ public class UDPSocketServer {
 		}
 		return Byte.MIN_VALUE;
 	}
-	
+
 	/**
 	 * Receive specific length bytes from the port and convert it into String
 	 * 21,24,-2,52,-102,-93,-60
@@ -110,19 +110,21 @@ public class UDPSocketServer {
 		Log.d(TAG, "receiveSpecLenBytes() entrance: len = " + len);
 		try {
 			acquireLock();
-			mServerSocket.receive(mReceivePacket);
-			byte[] recDatas = Arrays.copyOf(mReceivePacket.getData(), mReceivePacket.getLength());
-			Log.d(TAG, "received len : " + recDatas.length);
-			for (int i = 0; i < recDatas.length; i++) {
-				Log.e(TAG, "recDatas[" + i + "]:" + recDatas[i]);
+			if (mServerSocket != null) {
+				mServerSocket.receive(mReceivePacket);
+				byte[] recDatas = Arrays.copyOf(mReceivePacket.getData(), mReceivePacket.getLength());
+				Log.d(TAG, "received len : " + recDatas.length);
+				for (int i = 0; i < recDatas.length; i++) {
+					Log.e(TAG, "recDatas[" + i + "]:" + recDatas[i]);
+				}
+				Log.e(TAG, "receiveSpecLenBytes: " + new String(recDatas));
+				if (recDatas.length != len) {
+					Log.w(TAG,
+							"received len is different from specific len, return null");
+					return null;
+				}
+				return recDatas;
 			}
-			Log.e(TAG, "receiveSpecLenBytes: " + new String(recDatas));
-			if (recDatas.length != len) {
-				Log.w(TAG,
-						"received len is different from specific len, return null");
-				return null;
-			}
-			return recDatas;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -137,7 +139,8 @@ public class UDPSocketServer {
 	public synchronized void close() {
 		if (!this.mIsClosed) {
 			Log.e(TAG, "mServerSocket is closed");
-			mServerSocket.close();
+			if (mServerSocket != null)
+				mServerSocket.close();
 			releaseLock();
 			this.mIsClosed = true;
 		}
