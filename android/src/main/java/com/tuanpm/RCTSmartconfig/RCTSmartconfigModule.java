@@ -28,6 +28,7 @@ import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
 import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
+import com.espressif.iot.esptouch.util.EspAES;
 import com.espressif.iot.esptouch.task.__IEsptouchTask;
 
 public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
@@ -60,8 +61,9 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void start(final ReadableMap options, final Promise promise) {
       String ssid = options.getString("ssid");
+      String bssid = options.getString("bssid");
       String pass = options.getString("password");
-      int timeoutMillisecond=options.getInt("timeout");
+      String key = options.getString("key");
       Boolean hidden = false;
       //Int taskResultCountStr = 1;
       Log.d(TAG, "ssid " + ssid + ":pass " + pass);
@@ -100,7 +102,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
                promise.reject("Timeoutout", e);
             }
         }
-      }).execute(ssid, new String(""), pass,String.valueOf(timeoutMillisecond) ,"YES", "1");
+      }).execute(ssid, bssid, pass, key , "1");
       //promise.resolve(encoded);
       //promise.reject("Error creating media file.");
       //
@@ -145,18 +147,14 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
         synchronized (mLock) {
           String apSsid = params[0];
           String apBssid =  params[1];
+          Log.d("Timeout","bssid: "+ apBssid);
           String apPassword = params[2];
-          int timeoutMillisecond =  Integer.parseInt(params[3]);
-          String isSsidHiddenStr = params[4];
-          Log.d("Timeout","Timeout:"+timeoutMillisecond);
-          String taskResultCountStr = params[5];
-          boolean isSsidHidden = false;
-          if (isSsidHiddenStr.equals("YES")) {
-            isSsidHidden = true;
-          }
+          byte[] key = params[3].getBytes();
+          EspAES aesKey = new EspAES(key);
+          String taskResultCountStr = params[4];
           taskResultCount = Integer.parseInt(taskResultCountStr);
           mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
-              isSsidHidden,timeoutMillisecond, getCurrentActivity());
+              aesKey, getCurrentActivity());
 
           //mEsptouchTask.setEsptouchListener(myListener);
         }
