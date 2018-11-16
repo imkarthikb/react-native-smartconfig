@@ -1,12 +1,12 @@
 {
-  "name": "react-native-smartconfig",
+  "name": "react-native-smartconfig-2",
   "version": "1.0.3",
   "description": "react-native ESP8266 smartconfig module",
   "nativePackage": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "<Tuan PM> tuanpm@live.com",
+  "author": " <Tuan PM - bbourdel>",
   "license": "MIT",
   "keywords": [
     "react-native",
@@ -18,5 +18,14 @@
     "esptouch",
     "airkiss"
   ],
-  "dependencies": {}
+  "dependencies": {},
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbourdel/react-native-smartconfig.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bbourdel/react-native-smartconfig/issues"
+  },
+  "homepage": "https://github.com/bbourdel/react-native-smartconfig#readme"
 }

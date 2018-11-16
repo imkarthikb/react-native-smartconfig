@@ -13,7 +13,7 @@
 
 ## Getting started
 ### Mostly automatic install
-1. `npm install react-native-smartconfig@latest --save`
+1. `npm install react-native-smartconfig-2@latest --save`
 2. `react-native link`
 2. Add this to your podfile: 
    ```
