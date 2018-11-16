@@ -52,21 +52,21 @@ new RCTSmartconfigPackage()           // for newest version of react-native
 -  Append the following lines to `android/settings.gradle` before `include ':app'`:
 
 ```
-include ':react-native-smartconfig'
-project(':react-native-smartconfig').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-smartconfig/android')
+include ':react-native-smartconfig-2'
+project(':react-native-smartconfig-2').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-smartconfig-2/android')
 ```
 
 - Insert the following lines inside the dependencies block in `android/app/build.gradle`, dont missing `apply plugin:'java'` on top:
 
 ```
-compile project(':react-native-smartconfig')
+compile project(':react-native-smartconfig-2')
 ```
 
 Notes:
 
 ```
 dependencies {
-  compile project(':react-native-smartconfig')
+  compile project(':react-native-smartconfig-2')
 }
 ```
 
