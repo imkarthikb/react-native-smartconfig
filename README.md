@@ -82,7 +82,7 @@ Smartconfig.start({
   ssid: 'wifi-network-ssid',
   bssid: 'filter-device', //"" if not need to filter (don't use null)
   password: 'wifi-password',
-  timeout: 50000 //now doesn't not effect
+  key: "012345679ABCDEF" //AES encryption key
 }).then(function(results){
   //Array of device success do smartconfig
   console.log(results);
