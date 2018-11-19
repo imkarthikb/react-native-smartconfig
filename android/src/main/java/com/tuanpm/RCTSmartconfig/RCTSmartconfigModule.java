@@ -23,6 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
+import java.util.Base64;
+
 
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
@@ -63,7 +65,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
       String ssid = options.getString("ssid");
       String bssid = options.getString("bssid");
       String pass = options.getString("password");
-      String key = options.getString("key");
+      String numberToConfig = options.getString("numberToConfig");
       Boolean hidden = false;
       //Int taskResultCountStr = 1;
       Log.d(TAG, "ssid " + ssid + ":pass " + pass);
@@ -102,7 +104,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
                promise.reject("Timeoutout", e);
             }
         }
-      }).execute(ssid, bssid, pass, key , "1");
+      }).execute(ssid, bssid, pass, numberToConfig);
       //promise.resolve(encoded);
       //promise.reject("Error creating media file.");
       //
@@ -145,17 +147,15 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
         Log.d(TAG, "doing task");
         int taskResultCount = -1;
         synchronized (mLock) {
-          String apSsid = params[0];
-          String apBssid =  params[1];
-          Log.d("Timeout","bssid: "+ apBssid);
-          String apPassword = params[2];
-          byte[] key = params[3].getBytes();
-          EspAES aesKey = new EspAES(key);
-          String taskResultCountStr = params[4];
+          String apSsidB64 = params[0];
+          byte[] apSsid = Base64.getDecoder().decode(apSsidB64);
+          byte[] apBssid =  params[1].getBytes();
+          String apPasswordB64 = params[2];
+          byte[] apPassword = Base64.getDecoder().decode(apPasswordB64);
+          Log.d(TAG, "ssid " + apBssid + ":pass " + apPassword);
+          String taskResultCountStr = params[3];
           taskResultCount = Integer.parseInt(taskResultCountStr);
-          mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword,
-              aesKey, getCurrentActivity());
-
+          mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, getCurrentActivity());
           //mEsptouchTask.setEsptouchListener(myListener);
         }
         List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
