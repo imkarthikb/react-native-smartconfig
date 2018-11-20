@@ -102,7 +102,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
                promise.reject("Timeoutout", e);
             }
         }
-      }).execute(ssid, bssid, pass, numberToConfig);
+      }).execute(ssid, bssid, pass, Integer.toString(taskCount));
       //promise.resolve(encoded);
       //promise.reject("Error creating media file.");
       //
@@ -152,7 +152,8 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
           String apPasswordB64 = params[2];
           byte[] apPassword = Base64.decode(apPasswordB64, Base64.DEFAULT);
           Log.d(TAG, apSsid + " | " + apBssid + " | " + apPassword);
-          int taskCount = params[3];
+          String taskCountStr = params[3]; 
+          taskCount = Integer.parseInt(taskCountStr); 
           mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, getCurrentActivity());
         }
         List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskCount);
