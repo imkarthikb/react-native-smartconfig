@@ -119,6 +119,11 @@
 + (NSData *) getBytesByNSString: (NSString *)string;
 
 /**
+ * @param string the string to be used in Base64
+ * @return the Byte[] of string according to ESPTOUCH_NSStringEncoding
+ */
++ (NSData *) getBytesByB64NSString: (NSString *)string;
+/**
  * get hex string transformed by data
  * @param data the data to be transformed
  * @return the hex String transformed by data

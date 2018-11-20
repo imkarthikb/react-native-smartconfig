@@ -56,7 +56,8 @@ RCT_EXPORT_MODULE();
                                 @"password": @"password",
                                 @"hidden": @NO,
                                 @"bssid": @"",
-                                @"timeout": @50000
+                                @"timeout": @50000,
+                                @"taskCount": @1
                                 };
         self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
     }
@@ -146,13 +147,16 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     NSString *password = [self.options valueForKey:@"password"];
     NSString *bssid = [self.options valueForKey:@"bssid"];
     int timeoutMillisecond = [[self.options valueForKey:@"timeout"] intValue];
+    int taskCount = [[self.options valueForKey:@"taskCount"] intValue];
     BOOL hidden = [self.options valueForKey:@"hidden"];
+    // Decode the SSID, BSSID and PASSWORD from B64 to NSString
+
     RCTLogInfo(@"ssid %@ pass %@ bssid %@ timeout %d", ssid, password, bssid,timeoutMillisecond);
     self._esptouchTask = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
     // set delegate
     [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
     [self._condition unlock];
-    NSArray * esptouchResults = [self._esptouchTask executeForResults:1];
+    NSArray * esptouchResults = [self._esptouchTask executeForResults:taskCount];
     
     return esptouchResults;
 }

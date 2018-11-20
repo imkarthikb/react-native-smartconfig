@@ -142,6 +142,12 @@
     return data;
 }
 
++ (NSData *) getBytesByB64NSString: (NSString *)string
+{
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:string options:0];
+    return data;
+}
+
 + (NSString *) getHexStringByData:(NSData *)data
 {
     NSMutableString* mStr = [[NSMutableString alloc]init];

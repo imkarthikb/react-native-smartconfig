@@ -79,10 +79,10 @@ import Smartconfig from 'react-native-smartconfig';
 
 Smartconfig.start({
   type: 'esptouch', //or airkiss, now doesn't not effect
-  ssid: 'wifi-network-ssid',
-  bssid: 'filter-device', //"" if not need to filter (don't use null)
-  password: 'wifi-password',
-  key: "012345679ABCDEF" //AES encryption key
+  ssid: 'wifi-network-ssid-base64',
+  bssid: 'wifi-network-bssid-base64', //"" if not need to filter (don't use null)
+  password: 'wifi-password-base64',
+  taskCount: 1
 }).then(function(results){
   //Array of device success do smartconfig
   console.log(results);

@@ -64,9 +64,8 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
       String ssid = options.getString("ssid");
       String bssid = options.getString("bssid");
       String pass = options.getString("password");
-      String numberToConfig = options.getString("numberToConfig");
+      int taskCount = options.getInt("taskCount");
       Boolean hidden = false;
-      //Int taskResultCountStr = 1;
       Log.d(TAG, "ssid " + ssid + ":pass " + pass);
       stop();
       new EsptouchAsyncTask(new TaskListener() {
@@ -144,7 +143,7 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
       @Override
       protected List<IEsptouchResult> doInBackground(String... params) {
         Log.d(TAG, "doing task");
-        int taskResultCount = -1;
+        int taskCount = -1;
         synchronized (mLock) {
           String apSsidB64 = params[0];
           byte[] apSsid = Base64.decode(apSsidB64, Base64.DEFAULT);
@@ -153,11 +152,10 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
           String apPasswordB64 = params[2];
           byte[] apPassword = Base64.decode(apPasswordB64, Base64.DEFAULT);
           Log.d(TAG, apSsid + " | " + apBssid + " | " + apPassword);
-          String taskResultCountStr = params[3];
-          taskResultCount = Integer.parseInt(taskResultCountStr);
+          int taskCount = params[3];
           mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, getCurrentActivity());
         }
-        List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
+        List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskCount);
         return resultList;
       }
 
