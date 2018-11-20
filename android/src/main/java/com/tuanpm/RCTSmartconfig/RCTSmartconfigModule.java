@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.Base64;
 
 
 import com.espressif.iot.esptouch.EsptouchTask;
@@ -148,15 +147,15 @@ public class RCTSmartconfigModule extends ReactContextBaseJavaModule {
         int taskResultCount = -1;
         synchronized (mLock) {
           String apSsidB64 = params[0];
-          byte[] apSsid = Base64.getDecoder().decode(apSsidB64);
-          byte[] apBssid =  params[1].getBytes();
+          byte[] apSsid = Base64.decode(apSsidB64, Base64.DEFAULT);
+          String apBssid64 =  params[1];
+          byte[] apBssid = Base64.decode(apBssid64, Base64.DEFAULT);
           String apPasswordB64 = params[2];
-          byte[] apPassword = Base64.getDecoder().decode(apPasswordB64);
-          Log.d(TAG, "ssid " + apBssid + ":pass " + apPassword);
+          byte[] apPassword = Base64.decode(apPasswordB64, Base64.DEFAULT);
+          Log.d(TAG, apSsid + " | " + apBssid + " | " + apPassword);
           String taskResultCountStr = params[3];
           taskResultCount = Integer.parseInt(taskResultCountStr);
           mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, getCurrentActivity());
-          //mEsptouchTask.setEsptouchListener(myListener);
         }
         List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
         return resultList;
