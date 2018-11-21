@@ -50,8 +50,6 @@
 
 @property (atomic,strong) NSCondition *_esptouchResultArrayCondition;
 
-@property (nonatomic,assign) __block UIBackgroundTaskIdentifier _backgroundTask;
-
 @property (nonatomic,strong) id<ESPTouchDelegate> _esptouchDelegate;
 
 @property (nonatomic,strong) NSData *_localInetAddrData;
@@ -88,7 +86,7 @@
             self._apSsid = [aes AES128EncryptData:[ESP_ByteUtil getBytesByB64NSString:apSsid]];
             self._apPwd = [aes AES128EncryptData:[ESP_ByteUtil getBytesByB64NSString:apPwd]];
         }
-        self._apBssid = [ESP_NetUtil getBytesByB64NSString:apBssid];
+        self._apBssid = [ESP_ByteUtil getBytesByB64NSString:apBssid];
         self._parameter = [[ESPTaskParameter alloc]init];
         
         // check whether IPv4 and IPv6 is supported
@@ -236,13 +234,6 @@
     {
         NSLog(@"ESPTouchTask beginBackgroundTask() entrance");
     }
-    self._backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        if (DEBUG_ON)
-        {
-            NSLog(@"ESPTouchTask beginBackgroundTask() endBackgroundTask");
-        }
-        [self endBackgroundTask];
-    }];
 }
 
 - (void) endBackgroundTask
@@ -251,8 +242,6 @@
     {
         NSLog(@"ESPTouchTask endBackgroundTask() entrance");
     }
-    [[UIApplication sharedApplication] endBackgroundTask: self._backgroundTask];
-    self._backgroundTask = UIBackgroundTaskInvalid;
 }
 
 - (void) __listenAsyn: (const int) expectDataLen
