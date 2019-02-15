@@ -20,7 +20,7 @@ public class EsptouchTaskParameter implements IEsptouchTaskParameter {
     private int mWaitUdpSendingMillisecond;
     private int mThresholdSucBroadcastCount;
     private int mExpectTaskResultCount;
-    private boolean mBroadcast = true;
+    private boolean mBroadcast = false;
 
     public EsptouchTaskParameter() {
         mIntervalGuideCodeMillisecond = 8;
