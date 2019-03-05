@@ -56,7 +56,7 @@ RCT_EXPORT_MODULE();
                                 @"password": @"password",
                                 @"hidden": @NO,
                                 @"bssid": @"",
-                                @"timeout": @50000,
+                                @"timeout": @150000,
                                 @"taskCount": @1
                                 };
         self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
