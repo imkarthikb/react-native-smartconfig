@@ -151,8 +151,12 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     BOOL hidden = [self.options valueForKey:@"hidden"];
     // Decode the SSID, BSSID and PASSWORD from B64 to NSString
 
+    RCTLogInfo(@"executeForResults");
     RCTLogInfo(@"ssid %@ pass %@ bssid %@ timeout %d", ssid, password, bssid,timeoutMillisecond);
-    self._esptouchTask = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
+    self._esptouchTacd sk = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
+    // Potential fix for ios14.6 and xcode12.5
+    [self._esptouchTask setPackageBroadcast:true];
+    
     // set delegate
     [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
     [self._condition unlock];
