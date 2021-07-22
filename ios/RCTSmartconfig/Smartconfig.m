@@ -154,11 +154,12 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
     RCTLogInfo(@"executeForResults");
     RCTLogInfo(@"ssid %@ pass %@ bssid %@ timeout %d", ssid, password, bssid,timeoutMillisecond);
     self._esptouchTacd sk = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
-    // Potential fix for ios14.6 and xcode12.5
-    [self._esptouchTask setPackageBroadcast:true];
     
     // set delegate
     [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
+    // Potential fix for ios14.6 and xcode12.5
+    // [self._esptouchTask setPackageBroadcast:true];
+    
     [self._condition unlock];
     NSArray * esptouchResults = [self._esptouchTask executeForResults:taskCount];
     
