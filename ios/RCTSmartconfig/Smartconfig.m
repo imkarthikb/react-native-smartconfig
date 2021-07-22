@@ -153,7 +153,7 @@ RCT_EXPORT_METHOD(start:(NSDictionary *)options
 
     RCTLogInfo(@"executeForResults");
     RCTLogInfo(@"ssid %@ pass %@ bssid %@ timeout %d", ssid, password, bssid,timeoutMillisecond);
-    self._esptouchTask sk = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
+    self._esptouchTask = [[ESPTouchTask alloc]initWithApSsid:ssid andApBssid:bssid andApPwd:password andIsSsidHiden:hidden andTimeoutMillisecond:timeoutMillisecond];
     
     // set delegate
     [self._esptouchTask setEsptouchDelegate:self._esptouchDelegate];
