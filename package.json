@@ -22,10 +22,10 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bbourdel/react-native-smartconfig.git"
+    "url": "git+https://github.com/imkarthikb/react-native-smartconfig.git"
   },
   "bugs": {
-    "url": "https://github.com/bbourdel/react-native-smartconfig/issues"
+    "url": "https://github.com/imkarthikb/react-native-smartconfig/issues"
   },
-  "homepage": "https://github.com/bbourdel/react-native-smartconfig#readme"
+  "homepage": "https://github.com/imkarthikb/react-native-smartconfig#readme"
 }
