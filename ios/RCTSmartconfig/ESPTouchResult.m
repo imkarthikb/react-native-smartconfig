@@ -2,8 +2,8 @@
 //  ESPTouchResult.m
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 4/14/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 4/14/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 #import "ESPTouchResult.h"
@@ -24,12 +24,17 @@
     return self;
 }
 
-- (NSString *)description
-{
+- (NSString *)getAddressString {
     NSString *ipAddrDataStr = [ESP_NetUtil descriptionInetAddr4ByData:self.ipAddrData];
     if (ipAddrDataStr==nil) {
         ipAddrDataStr = [ESP_NetUtil descriptionInetAddr6ByData:self.ipAddrData];
     }
+    return ipAddrDataStr;
+}
+
+- (NSString *)description
+{
+    NSString *ipAddrDataStr = [self getAddressString];
     return [[NSString alloc]initWithFormat:@"[isSuc: %@,isCancelled: %@,bssid: %@,inetAddress: %@]",self.isSuc? @"YES":@"NO",
             self.isCancelled? @"YES":@"NO"
             ,self.bssid

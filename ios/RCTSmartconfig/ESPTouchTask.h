@@ -2,8 +2,8 @@
 //  ESPTouchTask.h
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 4/14/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 4/14/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,7 +11,7 @@
 #import "ESPTouchDelegate.h"
 #import "ESPAES.h"
 
-#define ESPTOUCH_VERSION    @"v0.3.7.0"
+#define ESPTOUCH_VERSION    @"SDK-v1.1.0"
 
 #define DEBUG_ON   YES
 

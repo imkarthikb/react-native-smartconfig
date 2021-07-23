@@ -2,8 +2,8 @@
 //  ESPUDPSocketClient.m
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 4/13/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 4/13/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 #import "ESPUDPSocketClient.h"
@@ -133,7 +133,7 @@
                      andInterval: (long) interval
 {
     // init socket parameters
-    bool isBroadcast = [targetHostName isEqualToString:@"255.255.255.255"];
+    bool isBroadcast = [targetHostName hasSuffix:@"255"];
     socklen_t addr_len;
     struct sockaddr_in target_addr;
     memset(&target_addr, 0, sizeof(target_addr));

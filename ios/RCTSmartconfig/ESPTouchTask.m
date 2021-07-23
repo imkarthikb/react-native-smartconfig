@@ -2,8 +2,8 @@
 //  ESPTouchTask.m
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 4/14/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 4/14/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 //  The usage of NSCondition refer to: https://gist.github.com/prachigauriar/8118909
@@ -50,6 +50,8 @@
 
 @property (atomic,strong) NSCondition *_esptouchResultArrayCondition;
 
+@property (nonatomic,assign) __block UIBackgroundTaskIdentifier _backgroundTask;
+
 @property (nonatomic,strong) id<ESPTouchDelegate> _esptouchDelegate;
 
 @property (nonatomic,strong) NSData *_localInetAddrData;
@@ -66,7 +68,7 @@
         perror("ESPTouchTask initWithApSsid() apSsid shouldn't be null or empty");
     }
     // the apSsid should be null or empty
-    assert(apSsid!=nil&&![apSsid isEqualToString:@""]);
+//    assert(apSsid!=nil&&![apSsid isEqualToString:@""]);
     if (apPwd == nil)
     {
         apPwd = @"";
@@ -80,13 +82,13 @@
             NSLog(@"ESPTouchTask init");
         }
         if (aes == nil) {
-            self._apSsid = [ESP_ByteUtil getBytesByB64NSString:apSsid];
-            self._apPwd = [ESP_ByteUtil getBytesByB64NSString:apPwd];
+            self._apSsid = [ESP_ByteUtil getBytesByNSString:apSsid];
+            self._apPwd = [ESP_ByteUtil getBytesByNSString:apPwd];
         } else {
-            self._apSsid = [aes AES128EncryptData:[ESP_ByteUtil getBytesByB64NSString:apSsid]];
-            self._apPwd = [aes AES128EncryptData:[ESP_ByteUtil getBytesByB64NSString:apPwd]];
+            self._apSsid = [aes AES128EncryptData:[ESP_ByteUtil getBytesByNSString:apSsid]];
+            self._apPwd = [aes AES128EncryptData:[ESP_ByteUtil getBytesByNSString:apPwd]];
         }
-        self._apBssid = [ESP_ByteUtil getBytesByB64NSString:apBssid];
+        self._apBssid = [ESP_NetUtil parseBssid2bytes:apBssid];
         self._parameter = [[ESPTaskParameter alloc]init];
         
         // check whether IPv4 and IPv6 is supported
@@ -234,6 +236,13 @@
     {
         NSLog(@"ESPTouchTask beginBackgroundTask() entrance");
     }
+    self._backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        if (DEBUG_ON)
+        {
+            NSLog(@"ESPTouchTask beginBackgroundTask() endBackgroundTask");
+        }
+        [self endBackgroundTask];
+    }];
 }
 
 - (void) endBackgroundTask
@@ -242,6 +251,8 @@
     {
         NSLog(@"ESPTouchTask endBackgroundTask() entrance");
     }
+    [[UIApplication sharedApplication] endBackgroundTask: self._backgroundTask];
+    self._backgroundTask = UIBackgroundTaskInvalid;
 }
 
 - (void) __listenAsyn: (const int) expectDataLen

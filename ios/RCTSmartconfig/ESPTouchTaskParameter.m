@@ -2,11 +2,12 @@
 //  ESPTaskParameter.m
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 5/20/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 5/20/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 #import "ESPTouchTaskParameter.h"
+#import "ESP_NetUtil.h"
 
 @interface ESPTaskParameter()
 @property (nonatomic,assign) long intervalGuideCodeMillisecond;
@@ -59,7 +60,7 @@ static int _datagramCount = 0;
         self.targetPort4 = 7001;
         self.targetPort6 = 7001;
         self.waitUdpReceivingMillisecond = 15000;
-        self.waitUdpSendingMillisecond = 135000;
+        self.waitUdpSendingMillisecond = 45000;
         self.thresholdSucBroadcastCount = 1;
         self.expectTaskResultCount = 1;
         self.isIPv4Supported0 = YES;
@@ -147,7 +148,9 @@ static int _datagramCount = 0;
 {
     if (_isIPv4Supported0) {
         if (self.broadcast) {
-            return @"255.255.255.255";
+            NSString *localInetAddr4 = [ESP_NetUtil getLocalIPv4];
+            NSArray *arr = [localInetAddr4 componentsSeparatedByString:@"."];
+            return [NSString stringWithFormat:@"%@.%@.%@.255",arr[0], arr[1], arr[2]];
         } else {
             int count = [self __getNextDatagramCount];
             return [NSString stringWithFormat: @"234.%d.%d.%d", count, count, count];
