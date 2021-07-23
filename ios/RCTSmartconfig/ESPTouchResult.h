@@ -2,8 +2,8 @@
 //  ESPTouchResult.h
 //  EspTouchDemo
 //
-//  Created by 白 桦 on 4/14/15.
-//  Copyright (c) 2015 白 桦. All rights reserved.
+//  Created by fby on 4/14/15.
+//  Copyright (c) 2015 fby. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -30,5 +30,7 @@
  * @param ipAddrData the device's ip address
  */
 - (id) initWithIsSuc: (BOOL) isSuc andBssid: (NSString *) bssid andInetAddrData: (NSData *) ipAddrData;
+
+- (NSString *) getAddressString;
 
 @end
