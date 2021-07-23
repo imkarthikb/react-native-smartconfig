@@ -9,15 +9,15 @@
 #import "Smartconfig.h"
 
 
-@interface EspTouchDelegateImpl : NSObject<ESPTouchDelegate>
+@interface EspTouchDelegateImpl1 : NSObject<ESPTouchDelegate>
 
 @end
 
 
-@implementation EspTouchDelegateImpl
+@implementation EspTouchDelegateImpl1
 -(void) onEsptouchResultAddedWithResult: (ESPTouchResult *) result
 {
-    NSLog(@"EspTouchDelegateImpl onEsptouchResultAddedWithResult bssid: %@", result.bssid);
+    NSLog(@"EspTouchDelegateImpl1 onEsptouchResultAddedWithResult bssid: %@", result.bssid);
     dispatch_async(dispatch_get_main_queue(), ^{
         //[self showAlertWithResult:result];
     });
@@ -31,7 +31,7 @@
 
 @property (nonatomic, strong) NSDictionary *defaultOptions;
 @property (nonatomic, retain) NSMutableDictionary *options;
-@property (nonatomic, strong) EspTouchDelegateImpl *_esptouchDelegate;
+@property (nonatomic, strong) EspTouchDelegateImpl1 *_esptouchDelegate;
 @property (nonatomic, strong) NSCondition *_condition;
 
 @property (atomic, strong) ESPTouchTask *_esptouchTask;
@@ -59,7 +59,7 @@ RCT_EXPORT_MODULE();
                                 @"timeout": @150000,
                                 @"taskCount": @1
                                 };
-        self._esptouchDelegate = [[EspTouchDelegateImpl alloc]init];
+        self._esptouchDelegate = [[EspTouchDelegateImpl1 alloc]init];
     }
     return self;
 }
